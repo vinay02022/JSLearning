@@ -1,0 +1,5 @@
+ Add a new state called membershipactivetilldate : date. Whenever a new member is created keep his membershipactivetilldate fixed to 3rd of March 2023.
+
+
+
+3) Add a new function called renew Membership which based on membership type (MONTHLYPACKAGE or YEARLYPACKAGE) increase the membershipactivetilldate by 1 month or 1 year respectively.
