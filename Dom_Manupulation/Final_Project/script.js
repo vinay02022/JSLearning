@@ -102,7 +102,21 @@ function addItem(e){
   }else{
     alert("Please enter a valid Item");
   }
-  // store data in local storage
+
+  // OBJECT Store In LOCAL Storage
+  let myObj={
+    name:"Vinay",
+    age:34,
+    city:"Mumbai",
+    phone:7837004491
+  }
+  let myObj_Serialised=JSON.stringify(myObj);//Stringfied
+  
+  localStorage.setItem("myObj",myObj_Serialised);
+
+  let myObj_Deserialised=JSON.parse(localStorage.getItem("myObj"))
+  console.log(myObj_Deserialised);
+    // store data in local storage
   function storeItemInLocalStorage(key, value) {
     localStorage.setItem(key, value);
   }
