@@ -58,7 +58,7 @@
 //    let val= document.getElementById("outputDiv").innerText=e.target.value;
 //    console.log(val);
 // }
-
+let itemCount = 0;
 var form = document.getElementById('addForm');
 var itemList = document.getElementById('items');
 var filter = document.getElementById('filter');
@@ -72,7 +72,7 @@ form.addEventListener('submit', addItem);
 // Delete event
 itemList.addEventListener('click', removeItem);
 // Filter event
-filter.addEventListener('keyup', filterItems);
+// filter.addEventListener('keyup', filterItems);
 
 // Add item
 function addItem(e){
@@ -80,14 +80,32 @@ function addItem(e){
 
   // Get input value
   var newItem = document.getElementById('item').value;
-
-  // Create new li element
+  var newitem2=document.getElementById('item2').value;
+   newItem=newItem+newitem2;
+  
+  
+  // Add text node with input value
+  if(newItem!==""){
+    // Create new li element
   var li = document.createElement('li');
   // Add class
   li.className = 'list-group-item';
-  // Add text node with input value
-  li.appendChild(document.createTextNode(newItem));
 
+    li.appendChild(document.createTextNode(newItem));
+    // Append li to list
+  itemList.appendChild(li);
+  // Store item in local storage
+  // storeItemInLocalStorage(itemCount, newItem);
+  // Increment item count and update in local storage
+  localStorage.setItem(itemCount, newItem);
+  itemCount++;
+  }else{
+    alert("Please enter a valid Item");
+  }
+  // store data in local storage
+  function storeItemInLocalStorage(key, value) {
+    localStorage.setItem(key, value);
+  }
   // Create del button element
   var deleteBtn = document.createElement('button');
 
@@ -99,9 +117,19 @@ function addItem(e){
 
   // Append button to li
   li.appendChild(deleteBtn);
+// Store item in local storage
+function storeItemInLocalStorage(item) {
+  let items;
+  if (localStorage.getItem('items') === null) {
+    items = [];
+  } else {
+    items = JSON.parse(localStorage.getItem('items'));
+  }
 
-  // Append li to list
-  itemList.appendChild(li);
+  items.push(item);
+  localStorage.setItem('items', JSON.stringify(items));
+}
+  
 }
 
 // Remove item
@@ -130,3 +158,4 @@ function filterItems(e){
     }
   });
 }
+

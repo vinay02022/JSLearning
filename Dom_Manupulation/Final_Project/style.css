@@ -1,0 +1,4 @@
+input:focus {
+    outline: none;
+    border: 1px solid #ccc; /* You can change this color to your preferred border color */
+}
