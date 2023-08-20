@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Expanse Tracker</title>
+</head>
+<body>
+    <form id="myForm" onsubmit="handleSubmit(e)">
+        <label for="expense">Choose Expense Amount: </label>
+        <input type="number" id="expense" >
+    
+        <label for="description">Choose Description: </label>
+        <input type="text" id="description">
+
+        <label for="category">Choose Category: </label>
+
+        <select id="category">
+            <option value="item1">Movie</option>
+            <option value="item2">Travel</option>
+            <option value="item3">Shopping</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+    
+    <div id="results"></div>
+    <script src="./script.js"></script>
+    
+</body>
+</html>

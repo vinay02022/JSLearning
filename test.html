@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Input field and label for entering a name -->
+    <label for="name">Name</label>
+    <input type="text" name="name" id="myName">
+
+    <!-- Unordered list (ul) to display list items -->
+    <ul id="myUl">
+        <li>MyLi</li> <!-- Initial list item -->
+    </ul>
+
+    <!-- Button to trigger the function -->
+    <button id="myBtn" onclick="myfun()">Click</button>
+
+    <script>
+        function myfun() {
+            // Get the value entered in the input field
+            var x = document.getElementById("myName").value;
+            
+            // Create a new list item element
+            var myLi = document.createElement("li");
+            
+            // Set the text of the new list item to the input value
+            myLi.innerText = x;
+            
+            // Append the new list item to the unordered list
+            document.getElementById("myUl").appendChild(myLi);
+        }
+    </script>
+</body>
+</html>
