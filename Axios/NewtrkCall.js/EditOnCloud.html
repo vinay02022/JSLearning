@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Information Form</title>
+</head>
+<body>
+<h1>User Information Form</h1>
+<form id="userForm">
+  <label for="name">Name:</label>
+  <input type="text" id="name" required>
+  <label for="email">Email:</label>
+  <input type="email" id="email" required>
+  <label for="age">Age:</label>
+  <input type="number" id="age" required>
+  <button type="submit">Submit</button>
+</form>
+<ul id="userList"></ul>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+
+<script>
+  const userForm = document.getElementById("userForm");
+  const userList = document.getElementById("userList");
+  const apiURL = 'https://crudcrud.com/api/9212d393282b40ca81884b0f3d3f5489/appoinment_Data';
+
+  // Fetch and display data from the API
+  async function fetchData() {
+    try {
+      const response = await axios.get(apiURL);
+      const data = response.data;
+
+      userList.innerHTML = '';
+
+      data.forEach(item => {
+        const li = createListItem(item);
+        userList.appendChild(li);
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  // Create a list item with user data and delete button
+  function createListItem(item) {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>Name: ${item.name}, Email: ${item.email}, Age: ${item.age}</span>
+      <button class="editBtn">Edit</button>
+      <button class="deleteBtn" data-id="${item._id}">Delete</button>
+    `;
+    return li;
+  }
+
+  // Initial fetch data
+  fetchData();
+
+  // Add event listener for form submission
+  userForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const age = document.getElementById("age").value;
+
+    try {
+      const response = await axios.post(apiURL, { name, email, age });
+      const newItem = response.data;
+      const li = createListItem(newItem);
+      userList.appendChild(li);
+    } catch (error) {
+      console.error("Error adding data:", error);
+    }
+
+    // Clear form fields
+    userForm.reset();
+  });
+
+  // Add event listener for list item buttons
+  userList.addEventListener("click", async function (event) {
+    if (event.target.classList.contains("deleteBtn")) {
+      const li = event.target.closest("li");
+      const itemId = event.target.getAttribute("data-id");
+
+      try {
+        await axios.delete(`${apiURL}/${itemId}`);
+        li.remove();
+      } catch (error) {
+        console.error("Error deleting data:", error);
+      }
+    }
+  });
+
+  userList.addEventListener("click", function (event) {
+    if (event.target.classList.contains("editBtn")) {
+      const li = event.target.closest("li");
+      const [name, email, age] = li.querySelector("span").textContent.split(": ").slice(1);
+
+      // Autofill form fields for editing
+      document.getElementById("name").value = name;
+      document.getElementById("email").value = email;
+      document.getElementById("age").value = age;
+
+      li.remove();
+    }
+  });
+</script>
+</body>
+</html>
