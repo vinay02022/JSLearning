@@ -1,80 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <form onsubmit="save2local">
-        <label >Name :</label>
-        <input type="text" id="name" name="name" required>
-        <label>Email :</label>
-        <input type="email" name="email" id="myEmail" required><br><br>
-        <label>Phone :</label>
-        <input type="number" name="Phone" id="myPhone" required><br><br>
-        <button type="button">Submit</button>
+      <label>Name :</label>
+      <input type="text" id="name" name="name" required />
+      <label>Email :</label>
+      <input type="email" name="email" id="myEmail" required /><br /><br />
+      <label>Phone :</label>
+      <input type="number" name="Phone" id="myPhone" required /><br /><br />
+      <button type="button">Submit</button>
     </form>
-    <ul id="listOfUsers">
-
-    </ul>
+    <ul id="listOfUsers"></ul>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
     <script>
-        function save2local(e){
-            e.preventDefault();
-            const name=e.target.username.value;
-            const email = document.getElementById("myEmail").value ;  //document.querySelector("#myEmail");
-            const phone=e.target.myPhone.value;
-            const obj={
-                name,
-                email,
-                phone
+      function save2local(e) {
+        e.preventDefault();
+        const name = e.target.username.value;
+        const email = document.getElementById("myEmail").value; //document.querySelector("#myEmail");
+        const phone = e.target.myPhone.value;
+        const obj = {
+          name,
+          email,
+          phone,
+        };
+        // localStorage.setItem(obj.email,JSON.stringify(obj))
+        axios
+          .post(
+            "https://crudcrud.com/api/9212d393282b40ca81884b0f3d3f5489/appoinment_Data",
+            obj
+          )
+          .then((res) => {
+            showNewUserOnScreen(res.data);
+            // console.log(res)
+          })
+          .catch((rej) => {
+            // console.log(rej))
+            document.body.innerHTML =
+              document.body.innerHTML + "<h4>Something is Error</h4>";
+          });
+        // localStorage.setItem(obj.email,JSON.stringify(obj))
+        // showNewUserOnScreen(obj)
+      }
+      window.addEventListener("DOMContentLoaded", () => {
+        axios
+          .get(
+            "https://crudcrud.com/api/9212d393282b40ca81884b0f3d3f5489/appoinment_Data"
+          )
+          .then((res) => {
+            console.log(res);
+            for (let i = 0; i < res.data.length; i++) {
+              showNewUserOnScreen(res.data[i]);
+              console.log(res.data[i]);
             }
-            // localStorage.setItem(obj.email,JSON.stringify(obj))
-            axios.post('https://crudcrud.com/api/9212d393282b40ca81884b0f3d3f5489/appoinment_Data',obj)
-            .then((res)=>{
-                showNewUserOnScreen(res.data);
-                // console.log(res)
-            })
-            .catch((rej)=>{
-                // console.log(rej))
-                document.body.innerHTML= document.body.innerHTML+ "<h4>Something is Error</h4>"
-
-            })
-            // localStorage.setItem(obj.email,JSON.stringify(obj))
-            // showNewUserOnScreen(obj)
-
-            
-
-        }
-        window.addEventListener("DOMContentLoaded",()=>{
-            axios.get('https://crudcrud.com/api/9212d393282b40ca81884b0f3d3f5489/appoinment_Data')
-            .then((res)=>{    
-                console.log(res)
-                for (let i = 0; i < res.data.length; i++) {
-                    showNewUserOnScreen(res.data[i]);
-                    
-                }
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
-            // const localStObj=localStorage;
-            // const localStKeys=Object.keys(localStObj)
-            // for (let i = 0; i < localStKeys.length; i++) {
-            //     const key = localStKeys[i];
-            //     const userDetailString=localStObj[key]
-            //     const userDetailObj=Json.parse(userDetailString);
-            //     showNewUserOnScreen(userDetailObj)
-                
-            // }
-        })
-        function showNewUserOnScreen(user){
-            document.getElementById('myEmail').value="";
-            document.getElementById('name').value="";
-            document.getElementById('myPhone').value=""
-
-        }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+      function showNewUserOnScreen(user) {
+        document.getElementById("myEmail").value = "";
+        document.getElementById("name").value = "";
+        document.getElementById("myPhone").value = "";
+      }
     </script>
-</body>
+  </body>
 </html>
